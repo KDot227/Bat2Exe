@@ -22,7 +22,8 @@ exit
             process.StartInfo.RedirectStandardError = true;
             process.Start();
             process.WaitForExit();
-            File.Delete(temp_file);
+            //Causing issues
+            //File.Delete(temp_file);
         }
     }
 }
