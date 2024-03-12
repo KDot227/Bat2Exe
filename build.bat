@@ -10,6 +10,8 @@ if %errorlevel% neq 0 (
     exit /b %errorlevel%
 )
 
+cls
+
 set "source=src"
 
 pushd %source%
