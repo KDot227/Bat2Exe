@@ -35,3 +35,8 @@ if %errorlevel% neq 0 (
 )
 
 popd
+
+echo finished
+
+pause
+exit
