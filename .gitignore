@@ -3,3 +3,5 @@ bun.lockb
 main.exe
 package.json
 main.js
+src\to_compile\template.js
+test.bat
