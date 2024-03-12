@@ -2,6 +2,14 @@
 setlocal enabledelayedexpansion
 chcp 65001 > nul
 
+bun upgrade --canary
+
+if %errorlevel% neq 0 (
+    echo PLEASE DOWNLOAD BUN FROM THE WEBSITE OR WITH CURL
+    pause
+    exit /b %errorlevel%
+)
+
 set "source=src"
 
 pushd %source%
