@@ -14,6 +14,12 @@ cls
 
 python -m builder
 
+if %errorlevel% neq 0 (
+    echo Python build failed
+    pause
+    exit /b %errorlevel%
+)
+
 set "source=src"
 
 pushd %source%
@@ -25,9 +31,18 @@ set "obfuscateCommand=bun obfuscator.js"
 set "buildCommand=bun build --minify --compile to_compile\main.js --outfile ..\main.exe"
 
 %buildDependencies%
+if %errorlevel% neq 0 (
+    echo Build dependencies failed
+    pause
+    exit /b %errorlevel%
+)
 %obfuscateCommand%
+if %errorlevel% neq 0 (
+    echo Obfuscate failed
+    pause
+    exit /b %errorlevel%
+)
 %buildCommand%
-
 if %errorlevel% neq 0 (
     echo Build failed
     pause

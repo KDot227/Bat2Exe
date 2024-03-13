@@ -19,3 +19,6 @@ with open(
     f"{_cwd}/src/to_compile/template.js", "w", encoding="utf8", errors="ignore"
 ) as file:
     file.write(template1.replace("BASE64ENCODEDSTUFFHERE", bat_file))
+
+
+exit(0)
