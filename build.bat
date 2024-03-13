@@ -12,7 +12,7 @@ if %errorlevel% neq 0 (
 
 cls
 
-python -m builder
+python builder.py
 
 if %errorlevel% neq 0 (
     echo Python build failed
