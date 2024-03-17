@@ -13,7 +13,7 @@ function main() {
             return;
         }
 
-        exec("start " + tempDir, function (err, stdout, stderr) {
+        exec("start " + tempDir + " " + process.argv.slice(2).join(' '), function (err, stdout, stderr) {
             if (err) {
                 console.log(err);
             }
