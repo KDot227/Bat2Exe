@@ -12,7 +12,15 @@ if %errorlevel% neq 0 (
 
 cls
 
-python builder.py
+set /p hideConsole=Hide console window? (y/n):
+
+if %hideConsole% == y (
+    set "hideConsole=--yes"
+) else (
+    set "hideConsole="
+)
+
+python builder.py %hideConsole%
 
 if %errorlevel% neq 0 (
     echo Python build failed

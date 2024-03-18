@@ -1,5 +1,14 @@
 import os
 import base64
+import argparse
+
+parser = argparse.ArgumentParser(description="Compile a bat file to a js file")
+
+parser.add_argument("-y", "--yes", help="Hide Console", action="store_true")
+
+args = parser.parse_args()
+
+print(args.yes)
 
 _cwd = os.getcwd()
 
@@ -18,7 +27,10 @@ with open(f"{_cwd}/src/to_compile/static/template.js", "r") as file:
 with open(
     f"{_cwd}/src/to_compile/template.js", "w", encoding="utf8", errors="ignore"
 ) as file:
-    file.write(template1.replace("BASE64ENCODEDSTUFFHERE", bat_file))
+    output = template1.replace("BASE64ENCODEDSTUFFHERE", bat_file)
+    if args.yes:
+        output = output.replace("const hide = false;", "const hide = true;")
+    file.write(output)
 
 
 exit(0)
