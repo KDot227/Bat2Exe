@@ -12,7 +12,7 @@ if %errorlevel% neq 0 (
 
 cls
 
-set /p hideConsole=Hide console window? (y/n):
+set /p hideConsole=Hide console window? (y/n): 
 
 if %hideConsole% == y (
     set "hideConsole=--yes"
