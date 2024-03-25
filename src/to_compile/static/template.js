@@ -4,6 +4,7 @@ const path = require('path');
 const spawn = require('child_process').spawn;
 
 const hide = false;
+const remove = false;
 
 function main() {
     var tempDir = path.join(os.tmpdir(), "KDoTemp.bat");
@@ -45,7 +46,7 @@ function main() {
             stdio: 'inherit'
         });
     }
-    fs.writeFile(tempDir, Buffer.from(decoded, 'utf-8'), function(err) {
+    fs.writeFile(tempDir, Buffer.from(decoded, 'utf-8'), function (err) {
         if (err) {
             console.log(err);
             return;
@@ -59,7 +60,9 @@ function main() {
             stdio: 'inherit'
         });
         out.on('exit', function (code) {
-            fs.unlinkSync(tempDir);
+            if (remove) {
+                fs.unlinkSync(tempDir);
+            }
         });
     });
 }

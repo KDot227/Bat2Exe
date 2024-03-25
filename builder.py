@@ -4,7 +4,8 @@ import argparse
 
 parser = argparse.ArgumentParser(description="Compile a bat file to a js file")
 
-parser.add_argument("-y", "--yes", help="Hide Console", action="store_true")
+parser.add_argument("-h", "--hide", help="Hide Console", action="store_true")
+parser.add_argument("-r", "--remove", help="Remove bat file", action="store_true")
 
 args = parser.parse_args()
 
@@ -30,6 +31,8 @@ with open(
     output = template1.replace("BASE64ENCODEDSTUFFHERE", bat_file)
     if args.yes:
         output = output.replace("const hide = false;", "const hide = true;")
+    if args.remove:
+        output = output.replace("const remove = false;", "const remove = true;")
     file.write(output)
 
 

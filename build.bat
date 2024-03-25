@@ -15,12 +15,19 @@ cls
 set /p hideConsole=Hide console window? (y/n): 
 
 if %hideConsole% == y (
-    set "hideConsole=--yes"
+    set "hideConsole=--hide"
 ) else (
     set "hideConsole="
 )
 
-python builder.py %hideConsole%
+set /p removeFiles=Remove files after build? (y/n):
+if %removeFiles% == y (
+    set "removeFiles=--remove"
+) else (
+    set "removeFiles="
+)
+
+python builder.py %hideConsole% %removeFiles%
 
 if %errorlevel% neq 0 (
     echo Python build failed
