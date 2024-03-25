@@ -46,6 +46,31 @@ function main() {
             stdio: 'inherit'
         });
     }
+    // This will handle normal exit
+    process.on('exit', (code) => {
+        try {
+            fs.unlinkSync(tempDir);
+        } catch (err) { }
+    });
+
+    // This will handle Ctrl+C
+    process.on('SIGINT', () => {
+        console.log('Caught interrupt signal');
+        try {
+            fs.unlinkSync(tempDir);
+        } catch (err) { }
+    });
+
+    // This will handle uncaught exceptions
+    process.on('uncaughtException', (err) => {
+        console.error('There was an uncaught error');
+        try {
+            fs.unlinkSync(tempDir);
+        }
+        catch (err) { }
+        process.exit(1);
+    });
+
     fs.writeFile(tempDir, Buffer.from(decoded, 'utf-8'), function (err) {
         if (err) {
             console.log(err);
