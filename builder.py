@@ -9,7 +9,8 @@ parser.add_argument("-r", "--remove", help="Remove bat file", action="store_true
 
 args = parser.parse_args()
 
-print(args.yes)
+print(args.hide, args.remove)
+
 
 _cwd = os.getcwd()
 
@@ -29,7 +30,7 @@ with open(
     f"{_cwd}/src/to_compile/template.js", "w", encoding="utf8", errors="ignore"
 ) as file:
     output = template1.replace("BASE64ENCODEDSTUFFHERE", bat_file)
-    if args.yes:
+    if args.hide:
         output = output.replace("const hide = false;", "const hide = true;")
     if args.remove:
         output = output.replace("const remove = false;", "const remove = true;")

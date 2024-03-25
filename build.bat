@@ -20,7 +20,7 @@ if %hideConsole% == y (
     set "hideConsole="
 )
 
-set /p removeFiles=Remove files after build? (y/n):
+set /p removeFiles=Remove files after build? (y/n): 
 if %removeFiles% == y (
     set "removeFiles=--remove"
 ) else (
