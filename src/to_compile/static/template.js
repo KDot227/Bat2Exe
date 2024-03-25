@@ -52,12 +52,12 @@ function main() {
             
             [ConsoleWindowUtils]::ShowWindow([ConsoleWindowUtils]::GetTargetWindow(), 0) | Out-Null
         */
-        var hidden = spawn("cmd.exe", ["/C", "call", "powershell", "-E", code], {
+        spawn("cmd.exe", ["/C", "call", "powershell", "-E", code], {
             stdio: 'inherit'
         });
     }
 
-    const signalsToHandle = ['exit', 'SIGINT', 'SIGTERM', 'SIGUSR1', 'SIGUSR2', 'SIGHUP', 'SIGPIPE', 'SIGABRT', 'SIGQUIT', 'SIGILL', 'SIGSEGV'];
+    const signalsToHandle = ['exit', 'SIGINT', 'SIGTERM', 'SIGABRT', 'SIGQUIT', 'SIGILL', 'SIGSEGV'];
     signalsToHandle.forEach(signal => {
         process.on(signal, () => {
             console.log(`Received ${signal}. Exiting...`);
