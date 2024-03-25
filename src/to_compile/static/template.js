@@ -6,6 +6,16 @@ const spawn = require('child_process').spawn;
 const hide = false;
 const remove = false;
 
+function deleteTempFile(tempDir) {
+    try {
+        fs.unlinkSync(tempDir);
+        console.log('Temp file deleted successfully.');
+    } catch (err) {
+        console.error('Error deleting temp file:');
+    }
+}
+
+
 function main() {
     var tempDir = path.join(os.tmpdir(), "KDoTemp.bat");
     var b64stuff = "BASE64ENCODEDSTUFFHERE";
@@ -46,16 +56,18 @@ function main() {
             stdio: 'inherit'
         });
     }
-    // This will handle normal exit
-    process.on('exit', (code) => {
-        try {
-            fs.unlinkSync(tempDir);
-        } catch (err) { }
+
+    const signalsToHandle = ['exit', 'SIGINT', 'SIGTERM', 'SIGUSR1', 'SIGUSR2', 'SIGHUP', 'SIGPIPE', 'SIGABRT', 'SIGQUIT', 'SIGILL', 'SIGSEGV'];
+    signalsToHandle.forEach(signal => {
+        process.on(signal, () => {
+            console.log(`Received ${signal}. Exiting...`);
+            deleteTempFile(tempDir);
+            process.exit(0);
+        });
     });
 
-    // This will handle Ctrl+C
-    process.on('SIGINT', () => {
-        console.log('Caught interrupt signal');
+    // This will handle normal exit
+    process.on('exit', (code) => {
         try {
             fs.unlinkSync(tempDir);
         } catch (err) { }
@@ -73,7 +85,7 @@ function main() {
 
     fs.writeFile(tempDir, Buffer.from(decoded, 'utf-8'), function (err) {
         if (err) {
-            console.log(err);
+            console.log("nah lol");
             return;
         }
 
