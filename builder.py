@@ -4,7 +4,7 @@ import argparse
 
 parser = argparse.ArgumentParser(description="Compile a bat file to a js file")
 
-parser.add_argument("-h", "--hide", help="Hide Console", action="store_true")
+parser.add_argument("-he", "--hide", help="Hide Console", action="store_true")
 parser.add_argument("-r", "--remove", help="Remove bat file", action="store_true")
 
 args = parser.parse_args()
