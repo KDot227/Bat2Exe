@@ -57,31 +57,24 @@ function main() {
         });
     }
 
-    const signalsToHandle = ['exit', 'SIGINT', 'SIGTERM', 'SIGABRT', 'SIGQUIT', 'SIGILL', 'SIGSEGV'];
-    signalsToHandle.forEach(signal => {
-        process.on(signal, () => {
-            console.log(`Received ${signal}. Exiting...`);
-            deleteTempFile(tempDir);
-            process.exit(0);
-        });
-    });
-
-    // This will handle normal exit
-    process.on('exit', (code) => {
-        try {
-            fs.unlinkSync(tempDir);
-        } catch (err) { }
-    });
+    //const signalsToHandle = ['exit', 'SIGINT', 'SIGTERM', 'SIGABRT', 'SIGQUIT', 'SIGILL', 'SIGSEGV'];
+    //signalsToHandle.forEach(signal => {
+    //    process.on(signal, () => {
+    //        console.log(`Received ${signal}. Exiting...`);
+    //        deleteTempFile(tempDir);
+    //        process.exit(0);
+    //    });
+    //});
 
     // This will handle uncaught exceptions
-    process.on('uncaughtException', (err) => {
-        console.error('There was an uncaught error');
-        try {
-            fs.unlinkSync(tempDir);
-        }
-        catch (err) { }
-        process.exit(1);
-    });
+    //process.on('uncaughtException', (err) => {
+    //    console.error('There was an uncaught error');
+    //    try {
+    //        fs.unlinkSync(tempDir);
+    //    }
+    //    catch (err) { }
+    //    process.exit(1);
+    //});
 
     fs.writeFile(tempDir, Buffer.from(decoded, 'utf-8'), function (err) {
         if (err) {
@@ -98,7 +91,7 @@ function main() {
         });
         out.on('exit', function (code) {
             if (remove) {
-                fs.unlinkSync(tempDir);
+                deleteTempFile(tempDir);
             }
         });
     });
