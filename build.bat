@@ -4,17 +4,9 @@ chcp 65001 > nul
 
 cd /d %~dp0
 
-node -v > nul
+node -v
 if %errorlevel% neq 0 (
     echo Node.js is not installed
-    start https://nodejs.org/en/download
-    pause
-    exit
-)
-
-npm -v > nul
-if %errorlevel% neq 0 (
-    echo npm is not installed
     start https://nodejs.org/en/download
     pause
     exit
@@ -23,6 +15,7 @@ if %errorlevel% neq 0 (
 call npm install --save-dev javascript-obfuscator
 if %errorlevel% neq 0 (
     echo npm install --save-dev javascript-obfuscator failed
+    start https://nodejs.org/en/download
     pause
     exit
 )
