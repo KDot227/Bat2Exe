@@ -6,14 +6,7 @@ var code = fs.readFileSync(__dirname + "\\to_compile\\template.js", "utf8");
 var obfuscationResult = JavaScriptObfuscator.obfuscate(code, {
     compact: true,
     simplify: true,
-    stringArray: false,
-    stringArrayCallsTransform: false,
-    stringArrayIndexShift: false,
-    stringArrayRotate: false,
-    stringArrayShuffle: false,
-    stringArrayWrappersChainedCalls: false,
     target: 'node',
-    transformObjectKeys: false,
     unicodeEscapeSequence: true
 });
 

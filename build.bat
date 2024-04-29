@@ -2,12 +2,13 @@
 setlocal enabledelayedexpansion
 chcp 65001 > nul
 
-bun upgrade --canary
+cd /d %~dp0
 
+call npm install --save-dev javascript-obfuscator
 if %errorlevel% neq 0 (
-    echo PLEASE DOWNLOAD BUN FROM THE WEBSITE OR WITH CURL
+    echo npm install --save-dev javascript-obfuscator failed
     pause
-    exit /b %errorlevel%
+    exit
 )
 
 cls
@@ -20,7 +21,7 @@ if %hideConsole% == y (
     set "hideConsole="
 )
 
-set /p removeFiles=Remove files after build? (y/n): 
+set /p removeFiles=Remove files after drop? (y/n): 
 if %removeFiles% == y (
     set "removeFiles=--remove"
 ) else (
@@ -35,38 +36,30 @@ if %errorlevel% neq 0 (
     exit /b %errorlevel%
 )
 
-set "source=src"
-
-pushd %source%
-
-set "buildDependencies=bun install --save-dev javascript-obfuscator"
-
-set "obfuscateCommand=bun obfuscator.js"
-
-set "buildCommand=bun build --minify --compile to_compile\main.js --outfile ..\main.exe"
-
-%buildDependencies%
+node src\obfuscator.js
 if %errorlevel% neq 0 (
-    echo Build dependencies failed
-    pause
-    exit /b %errorlevel%
-)
-%obfuscateCommand%
-if %errorlevel% neq 0 (
-    echo Obfuscate failed
-    pause
-    exit /b %errorlevel%
-)
-%buildCommand%
-if %errorlevel% neq 0 (
-    echo Build failed
+    echo Obfuscation failed
     pause
     exit /b %errorlevel%
 )
 
-popd
+cls
 
-echo finished
+move /Y src\to_compile\main.js index.js > nul
+if %errorlevel% neq 0 (
+    echo Move failed
+    pause
+    exit /b %errorlevel%
+)
+
+call npm install -g pkg
+
+pkg index.js --compress GZip -t node18-win
+if %errorlevel% neq 0 (
+    echo pkg failed
+    pause
+    exit /b %errorlevel%
+)
 
 pause
 exit
